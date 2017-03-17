@@ -1,44 +1,60 @@
-"use strict";
+'use strict';
 
-function Thermostat() {
-  this.DEFAULT_TEMP = 20;
-  this.temp = this.DEFAULT_TEMP;
-  this.powerSaver = true;
-  this.MINIMUM_TEMP = 10;
-  this.MAXIMUM_TEMP = 32;
-  this.POWER_SAVE_MAX = 25;
-  this.LOW_USAGE_THRESHOLD = 17; // 18 to 24 = medium usage, 25+ is high
-  this.MEDIUM_USAGE_THRESHOLD = 24;
+function Thermostat(){
+  this.minimumTemperature = MINIMUM_TEMPERATURE;
+  this.currentTemperature = 20;
+  this.powerSavingMode = true;
+  this.maximumTemperature = this._determineMaxTemperature();
+};
+
+const MINIMUM_TEMPERATURE = 10;
+
+Thermostat.prototype.getCurrentTemperature = function () {
+  return this.currentTemperature;
 };
 
 Thermostat.prototype.up = function() {
-  return this._changeTemp(+1);
+  if (this.currentTemperature === this.maximumTemperature) {
+    return;
+  };
+  this.currentTemperature ++;
 };
 
 Thermostat.prototype.down = function() {
-  return this._changeTemp(-1);
+  if (this.currentTemperature === this.minimumTemperature) {
+    return;
+  };
+  this.currentTemperature --;
 };
 
-Thermostat.prototype._changeTemp = function(number) {
-  if (this.temp + number < this.MINIMUM_TEMP)
-    throw "minimum temparature reached";
-  if (this._maxTempReached(number))
-    throw "maximum temperature reached"
-  return this.temp += number;
+Thermostat.prototype.reset = function() {
+  this.currentTemperature = 20;
 };
 
-Thermostat.prototype._maxTempReached = function(number) {
-  return (this.temp + number > this.POWER_SAVE_MAX && this.powerSaver === true) || (this.temp + number > this.MAXIMUM_TEMP && this.powerSaver === false);
+Thermostat.prototype.powerSavingOff = function() {
+  this.powerSavingMode = false;
+  this._determineMaxTemperature();
 };
 
-Thermostat.prototype.resetTemp = function() {
-  return this.temp = this.DEFAULT_TEMP;
+Thermostat.prototype.powerSavingOn = function() {
+  this.powerSavingMode = true;
+  this._determineMaxTemperature();
 };
 
-Thermostat.prototype.checkUsage = function() {
-  if (this.temp <= this.LOW_USAGE_THRESHOLD)
-    return "low";
-  if (this.temp <= this.MEDIUM_USAGE_THRESHOLD)
+Thermostat.prototype._determineMaxTemperature = function() {
+  if (this.powerSavingMode === true){
+    return this.maximumTemperature = 25;
+  } else {
+    return this.maximumTemperature = 32;
+  };
+};
+
+Thermostat.prototype.checkEnergyUsage = function() {
+  if (this.currentTemperature < 18 ){
+    return  "low";
+  } else if (this.currentTemperature < 25) {
     return "medium";
-  return "high";
+  } else {
+    return "high";
+  };
 };

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <script
+    src="https://code.jquery.com/jquery-3.1.1.js"
+    integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+    crossorigin="anonymous"></script>
+
+  <title>Thermostat</title>
+  <body>
+    <div id="weather"></div>
+    <p><span id="temp"></span></p>
+    <p>
+      <span id="wind"></span>
+    </p>
+    <section>
+      <h1>The current temperature is: <span id="current-temperature"></span></h1>
+      <h1 id="temperature"></h1>
+      <p>
+        <button id="temperature-up">+</button>
+        <button id="temperature-down">-</button>
+        <button id="temperature-reset">reset</button>
+        Power Saving Mode Is <span id="power-saving-status">On</span>
+        <button id="powersaving-on">Power Saving On!</button>
+        <button id="powersaving-off">Power Saving Off!</button>
+      </p>
+      <section>
+  <h1>Current temperature: <span id="current-temperature">20</span></h1>
+  <select id="current-city">
+    <option value="london">London</option>
+    <option value="newyork">New York</option>
+    <option value="paris">Paris</option>
+    <option value="tokyo">Tokyo</option>
+  </select>
+</section>
+      <input type="button" value="Hide" id="hide_message"  />
+      <p id="message">
+        This is a message
+      </p>
+    </section>
+    <script type ="text/javascript" src="src/Thermostat.js"></script>
+    <script type="text/javascript" src="src/Interface.js"></script>
+
+  </body>
+</head>
+</html>
